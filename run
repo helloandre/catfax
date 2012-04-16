@@ -1,0 +1,11 @@
+#! /usr/bin/php
+<?php
+require('CatFax.php');
+// for more info, see CatFaxScript.php
+
+$action = $argv[1];
+if (method_exists('CatFaxScript', $action)){
+    call_user_func_array(array('CatFaxScript', $action), array_slice($argv, 2));
+} else {
+    CatFaxScript::usage("CatFaxScript::$action() does not exist");
+}
