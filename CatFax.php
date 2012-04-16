@@ -162,6 +162,8 @@ class CatFaxScript {
         self::valid_to($to);
         if (empty($to)){
             $to = array_keys(CatFax::$numbers);
+        } else {
+            $to = array($to);
         }
 
         $send = array();
