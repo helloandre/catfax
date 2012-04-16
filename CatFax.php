@@ -149,7 +149,7 @@ class CatFaxScript {
     static function send($to=""){
         // only bother between 9AM and 10PM
         $time = date("G");
-        if (!$fake && $time < self::$min_time && $time > self::$max_time){
+        if ($time < self::$min_time && $time > self::$max_time){
             self::ln("not between 9am and 10pm");
             die();
         }
