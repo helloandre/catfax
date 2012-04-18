@@ -14,7 +14,17 @@ class CatFax {
 
     static $facts = array(
         "Cats actually only have 8 lives.",
-        "Cats always land on their hind feet."
+        "Cats always land on their hind feet.",
+        "Cats are believed to have been domesticated in Ancient Egypt.",
+        "Domesticated cats are perfectly capable of surviving in the wild.",
+        "Cats can tolerate temperatures of up to 133 degrees Farenheit.",
+        "Cats have difficulty digesting plant matter.",
+        "Cats can see in light on sixth the amount that humans can.",
+        "The oldest known cat (Creme Puff) lived to be 38.",
+        "Tylenol is extremely toxic to cats",
+        "Cats are responsible for about 65 million bird deaths in the UK every year.",
+        "There are currently 41 recognized breeds of cats.",
+        "There are an estimated 60 million feral (wild) cats in the US"
     );
 
     // see get_random() for formatting
@@ -28,6 +38,8 @@ class CatFax {
             'All inqueries must be sent by carrier pidgeon.'
         )
     );
+
+    static $welcome = "Thanks for subscribing to CatFax! We're your best source for Cat Facts anywhere!";
 
     /**
      * @param string $type facts|numbers|voice|sms
@@ -146,6 +158,13 @@ class CatFaxScript {
         }
     }
 
+    static function sub($to=""){
+        self::valid_to($to, true);
+
+        $sent = CatFax::send($to, CatFax::$welcome);
+        self::ln("$to -> $sent");
+    }
+
     static function send($to=""){
         // only bother between 9AM and 10PM
         $time = date("G");
@@ -166,14 +185,10 @@ class CatFaxScript {
             $to = array($to);
         }
 
-        $send = array();
         foreach ($to as $number){
             $body = CatFax::get_random('facts', $number);
-            $sent[$number] = CatFax::send($number, $body);
-        }
-        
-        foreach ($sent as $number=>$body){
-            self::ln("$number -> $body");
+            $sent = CatFax::send($number, $body);
+            self::ln("$number -> $sent");
         }
     }
 
